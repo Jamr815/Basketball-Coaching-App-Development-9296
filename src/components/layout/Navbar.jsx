@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../../common/SafeIcon';
 
-const { FiMenu, FiX, FiHome, FiTarget, FiUser, FiCalendar, FiBarChart3, FiPlay } = FiIcons;
+const { FiMenu, FiX, FiHome, FiTarget, FiUser, FiCalendar, FiPlay, FiSettings } = FiIcons;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +15,8 @@ const Navbar = () => {
     { path: '/programs', label: 'Programs', icon: FiTarget },
     { path: '/about', label: 'About', icon: FiUser },
     { path: '/booking', label: 'Book Session', icon: FiCalendar },
-    { path: '/dashboard', label: 'Dashboard', icon: FiBarChart3 },
     { path: '/drills', label: 'Drills', icon: FiPlay },
+    { path: '/admin', label: 'Admin', icon: FiSettings },
   ];
 
   const isActive = (path) => location.pathname === path;

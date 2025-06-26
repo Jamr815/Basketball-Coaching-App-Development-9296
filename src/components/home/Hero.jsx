@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../../common/SafeIcon';
+import EditableText from '../editor/EditableText';
+import EditableImage from '../editor/EditableImage';
+import { useVisualEditor } from '../../hooks/useVisualEditor';
 
 const { FiPlay, FiCalendar, FiArrowRight } = FiIcons;
 
 const Hero = () => {
+  const { editMode } = useVisualEditor();
+
   return (
     <section className="relative bg-gradient-to-br from-secondary-900 via-secondary-800 to-primary-800 text-white overflow-hidden">
       {/* Background Pattern */}
@@ -28,16 +33,24 @@ const Hero = () => {
               <span className="inline-block bg-primary-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
                 Professional Basketball Training
               </span>
-              <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight mb-6">
-                Unlock Your
-                <span className="text-primary-400"> Basketball</span>
-                <br />
-                Potential
-              </h1>
-              <p className="text-xl text-gray-300 mb-8 max-w-lg">
-                Train with Julian Beard, former professional player with international experience. 
-                Master 20 specialized skill modules designed to elevate your game.
-              </p>
+              
+              <EditableText
+                contentKey="hero.title"
+                editMode={editMode}
+                type="heading"
+                className="text-4xl md:text-6xl font-display font-bold leading-tight mb-6 block"
+              >
+                Unlock Your <span className="text-primary-400">Basketball</span><br />Potential
+              </EditableText>
+              
+              <EditableText
+                contentKey="hero.subtitle"
+                editMode={editMode}
+                type="textarea"
+                className="text-xl text-gray-300 mb-8 max-w-lg block"
+              >
+                Train with Julian Beard, former professional player with international experience. Master 20 specialized skill modules designed to elevate your game.
+              </EditableText>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -60,16 +73,52 @@ const Hero = () => {
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-600">
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary-400">500+</div>
-                <div className="text-sm text-gray-400">Players Trained</div>
+                <EditableText
+                  contentKey="hero.stats.0.number"
+                  editMode={editMode}
+                  className="text-2xl font-bold text-primary-400 block"
+                >
+                  500+
+                </EditableText>
+                <EditableText
+                  contentKey="hero.stats.0.label"
+                  editMode={editMode}
+                  className="text-sm text-gray-400 block"
+                >
+                  Players Trained
+                </EditableText>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary-400">20</div>
-                <div className="text-sm text-gray-400">Skill Modules</div>
+                <EditableText
+                  contentKey="hero.stats.1.number"
+                  editMode={editMode}
+                  className="text-2xl font-bold text-primary-400 block"
+                >
+                  20
+                </EditableText>
+                <EditableText
+                  contentKey="hero.stats.1.label"
+                  editMode={editMode}
+                  className="text-sm text-gray-400 block"
+                >
+                  Skill Modules
+                </EditableText>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-primary-400">5+</div>
-                <div className="text-sm text-gray-400">Years Experience</div>
+                <EditableText
+                  contentKey="hero.stats.2.number"
+                  editMode={editMode}
+                  className="text-2xl font-bold text-primary-400 block"
+                >
+                  5+
+                </EditableText>
+                <EditableText
+                  contentKey="hero.stats.2.label"
+                  editMode={editMode}
+                  className="text-sm text-gray-400 block"
+                >
+                  Years Experience
+                </EditableText>
               </div>
             </div>
           </motion.div>
@@ -82,14 +131,16 @@ const Hero = () => {
             className="relative"
           >
             <div className="relative z-10">
-              <img
+              <EditableImage
                 src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 alt="Basketball Training"
+                contentKey="hero.image"
+                editMode={editMode}
                 className="rounded-2xl shadow-2xl w-full h-96 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
             </div>
-            
+
             {/* Floating Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -102,8 +153,20 @@ const Hero = () => {
                   <SafeIcon icon={FiArrowRight} className="text-white text-lg" />
                 </div>
                 <div>
-                  <div className="font-semibold">Start Training Today</div>
-                  <div className="text-sm text-gray-600">From $20/session</div>
+                  <EditableText
+                    contentKey="hero.cta.title"
+                    editMode={editMode}
+                    className="font-semibold block"
+                  >
+                    Start Training Today
+                  </EditableText>
+                  <EditableText
+                    contentKey="hero.cta.subtitle"
+                    editMode={editMode}
+                    className="text-sm text-gray-600 block"
+                  >
+                    From $25/session
+                  </EditableText>
                 </div>
               </div>
             </motion.div>

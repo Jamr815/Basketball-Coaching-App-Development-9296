@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import EditableText from '../components/editor/EditableText';
+import EditableImage from '../components/editor/EditableImage';
+import { useVisualEditor } from '../hooks/useVisualEditor';
 
 const { FiTarget, FiClock, FiUsers, FiTrendingUp, FiShield, FiZap, FiEye, FiArrowRight } = FiIcons;
 
 const Programs = () => {
+  const { editMode } = useVisualEditor();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [skillModules, setSkillModules] = useState([]);
 
   const categories = [
     { id: 'all', name: 'All Skills', icon: FiTarget },
@@ -17,7 +22,7 @@ const Programs = () => {
     { id: 'mental', name: 'Mental Game', icon: FiEye }
   ];
 
-  const skillModules = [
+  const defaultModules = [
     {
       id: 1,
       title: 'Ball Handling Mastery',
@@ -25,7 +30,13 @@ const Programs = () => {
       description: 'Master dribbling techniques, hand-eye coordination, and ball control under pressure.',
       duration: '45 min',
       level: 'Beginner to Advanced',
-      icon: FiTarget
+      icon: 'FiTarget',
+      features: [
+        'Two-ball dribbling combinations',
+        'Stationary and moving drills',
+        'Hand-eye coordination exercises',
+        'Pressure situation training'
+      ]
     },
     {
       id: 2,
@@ -34,7 +45,13 @@ const Programs = () => {
       description: 'Perfect your shooting form, consistency, and accuracy from all positions.',
       duration: '60 min',
       level: 'All Levels',
-      icon: FiTarget
+      icon: 'FiTarget',
+      features: [
+        'Form shooting progression',
+        'Catch and shoot techniques',
+        'Off-the-dribble shooting',
+        'Range extension drills'
+      ]
     },
     {
       id: 3,
@@ -43,7 +60,13 @@ const Programs = () => {
       description: 'Euro steps, floaters, contact layups, and advanced finishing techniques.',
       duration: '45 min',
       level: 'Intermediate to Advanced',
-      icon: FiZap
+      icon: 'FiZap',
+      features: [
+        'Euro step mastery',
+        'Floater development',
+        'Contact finishing',
+        'Reverse layup techniques'
+      ]
     },
     {
       id: 4,
@@ -52,7 +75,13 @@ const Programs = () => {
       description: 'Develop basketball IQ, reading defenses, and making smart passes.',
       duration: '50 min',
       level: 'All Levels',
-      icon: FiEye
+      icon: 'FiEye',
+      features: [
+        'Reading defensive schemes',
+        'Passing fundamentals',
+        'Court awareness drills',
+        'Decision-making training'
+      ]
     },
     {
       id: 5,
@@ -61,7 +90,13 @@ const Programs = () => {
       description: 'Master defensive stance, lateral movement, and positioning fundamentals.',
       duration: '45 min',
       level: 'All Levels',
-      icon: FiShield
+      icon: 'FiShield',
+      features: [
+        'Defensive stance training',
+        'Lateral movement drills',
+        'Help defense positioning',
+        'Close-out techniques'
+      ]
     },
     {
       id: 6,
@@ -70,7 +105,13 @@ const Programs = () => {
       description: 'Jab steps, crossovers, step-backs, and isolation scoring techniques.',
       duration: '55 min',
       level: 'Intermediate to Advanced',
-      icon: FiZap
+      icon: 'FiZap',
+      features: [
+        'Jab step variations',
+        'Crossover combinations',
+        'Step-back jumpers',
+        'Isolation footwork'
+      ]
     },
     {
       id: 7,
@@ -79,7 +120,13 @@ const Programs = () => {
       description: 'Master pick and roll offense, reading screens, and making quick decisions.',
       duration: '50 min',
       level: 'Intermediate to Advanced',
-      icon: FiUsers
+      icon: 'FiUsers',
+      features: [
+        'Screen reading',
+        'Roll vs. pop decisions',
+        'Help defense recognition',
+        'Quick decision making'
+      ]
     },
     {
       id: 8,
@@ -88,7 +135,13 @@ const Programs = () => {
       description: 'Learn to move without the ball, create space, and find open spots.',
       duration: '40 min',
       level: 'All Levels',
-      icon: FiTrendingUp
+      icon: 'FiTrendingUp',
+      features: [
+        'Cutting techniques',
+        'Spacing concepts',
+        'Screen usage',
+        'Communication skills'
+      ]
     },
     {
       id: 9,
@@ -97,7 +150,13 @@ const Programs = () => {
       description: 'Position-specific footwork training for guards and forwards.',
       duration: '45 min',
       level: 'All Levels',
-      icon: FiTarget
+      icon: 'FiTarget',
+      features: [
+        'Triple threat position',
+        'Pivot fundamentals',
+        'Jab step mechanics',
+        'Balance and stability'
+      ]
     },
     {
       id: 10,
@@ -106,99 +165,33 @@ const Programs = () => {
       description: 'Understand defensive schemes and make quick offensive adjustments.',
       duration: '40 min',
       level: 'Intermediate to Advanced',
-      icon: FiEye
-    },
-    {
-      id: 11,
-      title: 'Game Situational Training',
-      category: 'mental',
-      description: 'Practice game-like scenarios, clutch situations, and pressure moments.',
-      duration: '60 min',
-      level: 'All Levels',
-      icon: FiClock
-    },
-    {
-      id: 12,
-      title: 'Athletic Conditioning & Endurance',
-      category: 'fundamentals',
-      description: 'Basketball-specific conditioning, agility, and endurance training.',
-      duration: '45 min',
-      level: 'All Levels',
-      icon: FiTrendingUp
-    },
-    {
-      id: 13,
-      title: 'Vertical Jump & Explosiveness',
-      category: 'fundamentals',
-      description: 'Plyometric training to increase vertical jump and explosive power.',
-      duration: '40 min',
-      level: 'All Levels',
-      icon: FiZap
-    },
-    {
-      id: 14,
-      title: 'Transition Offense & Defense',
-      category: 'fundamentals',
-      description: 'Fast break offense, transition defense, and court awareness.',
-      duration: '45 min',
-      level: 'All Levels',
-      icon: FiTrendingUp
-    },
-    {
-      id: 15,
-      title: 'Confidence & Mental Toughness',
-      category: 'mental',
-      description: 'Build mental resilience, confidence, and performance under pressure.',
-      duration: '35 min',
-      level: 'All Levels',
-      icon: FiEye
-    },
-    {
-      id: 16,
-      title: 'Film Breakdown & Game Study',
-      category: 'mental',
-      description: 'Video analysis, studying game film, and learning from mistakes.',
-      duration: '30 min',
-      level: 'Intermediate to Advanced',
-      icon: FiEye
-    },
-    {
-      id: 17,
-      title: 'Shooting Off the Dribble',
-      category: 'offense',
-      description: 'Master pull-up jumpers, step-backs, and shooting on the move.',
-      duration: '50 min',
-      level: 'Intermediate to Advanced',
-      icon: FiTarget
-    },
-    {
-      id: 18,
-      title: 'Catch & Shoot Development',
-      category: 'offense',
-      description: 'Quick release, footwork, and accuracy on catch-and-shoot opportunities.',
-      duration: '45 min',
-      level: 'All Levels',
-      icon: FiTarget
-    },
-    {
-      id: 19,
-      title: 'Handling Full-Court Pressure',
-      category: 'fundamentals',
-      description: 'Break pressure defense, maintain composure, and advance the ball.',
-      duration: '40 min',
-      level: 'Intermediate to Advanced',
-      icon: FiShield
-    },
-    {
-      id: 20,
-      title: 'Leadership & Team Communication',
-      category: 'mental',
-      description: 'Develop leadership skills, court communication, and team chemistry.',
-      duration: '35 min',
-      level: 'All Levels',
-      icon: FiUsers
+      icon: 'FiEye',
+      features: [
+        'Zone vs. man recognition',
+        'Weak side awareness',
+        'Help defense reads',
+        'Counter strategies'
+      ]
     }
   ];
+
+  useEffect(() => {
+    // Load skill modules from localStorage or use defaults
+    const savedModules = localStorage.getItem('skillModules');
+    if (savedModules) {
+      setSkillModules(JSON.parse(savedModules));
+    } else {
+      setSkillModules(defaultModules);
+      localStorage.setItem('skillModules', JSON.stringify(defaultModules));
+    }
+  }, []);
+
+  const getIconComponent = (iconName) => {
+    const iconMap = {
+      FiTarget, FiZap, FiShield, FiEye, FiUsers, FiClock, FiTrendingUp
+    };
+    return iconMap[iconName] || FiTarget;
+  };
 
   const filteredModules = selectedCategory === 'all' 
     ? skillModules 
@@ -214,13 +207,22 @@ const Programs = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6">
+          <EditableText
+            contentKey="programs.title"
+            editMode={editMode}
+            type="heading"
+            className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-6 block"
+          >
             20 Specialized Training Modules
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive basketball skill development covering every aspect of the game. 
-            Each module is designed by Julian Beard based on professional experience.
-          </p>
+          </EditableText>
+          <EditableText
+            contentKey="programs.subtitle"
+            editMode={editMode}
+            type="textarea"
+            className="text-xl text-gray-600 max-w-3xl mx-auto block"
+          >
+            Comprehensive basketball skill development covering every aspect of the game. Each module is designed by Julian Beard based on professional experience.
+          </EditableText>
         </motion.div>
 
         {/* Category Filter */}
@@ -258,22 +260,70 @@ const Programs = () => {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                  <SafeIcon icon={module.icon} className="text-primary-600" />
+                  <SafeIcon icon={getIconComponent(module.icon)} className="text-primary-600" />
                 </div>
                 <div className="text-sm text-primary-600 font-medium uppercase tracking-wide">
                   {module.category}
                 </div>
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{module.title}</h3>
-              <p className="text-gray-600 mb-4">{module.description}</p>
+              <EditableText
+                contentKey={`programs.modules.${module.id}.title`}
+                editMode={editMode}
+                className="text-xl font-bold text-gray-900 mb-3 block"
+              >
+                {module.title}
+              </EditableText>
+
+              <EditableText
+                contentKey={`programs.modules.${module.id}.description`}
+                editMode={editMode}
+                type="textarea"
+                className="text-gray-600 mb-4 block"
+              >
+                {module.description}
+              </EditableText>
 
               <div className="flex justify-between items-center text-sm text-gray-500 mb-6">
                 <div className="flex items-center space-x-1">
                   <SafeIcon icon={FiClock} />
-                  <span>{module.duration}</span>
+                  <EditableText
+                    contentKey={`programs.modules.${module.id}.duration`}
+                    editMode={editMode}
+                    className="inline"
+                  >
+                    {module.duration}
+                  </EditableText>
                 </div>
-                <span>{module.level}</span>
+                <EditableText
+                  contentKey={`programs.modules.${module.id}.level`}
+                  editMode={editMode}
+                  className="inline"
+                >
+                  {module.level}
+                </EditableText>
+              </div>
+
+              {/* Features */}
+              <div className="mb-6">
+                <h4 className="font-medium text-gray-900 text-sm mb-2">Key Features:</h4>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  {module.features?.slice(0, 3).map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <EditableText
+                        contentKey={`programs.modules.${module.id}.features.${featureIndex}`}
+                        editMode={editMode}
+                        className="flex-1"
+                      >
+                        {feature}
+                      </EditableText>
+                    </li>
+                  ))}
+                  {module.features?.length > 3 && (
+                    <li className="text-gray-500 text-xs">+ {module.features.length - 3} more features</li>
+                  )}
+                </ul>
               </div>
 
               <Link
@@ -294,12 +344,23 @@ const Programs = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-16 bg-white rounded-2xl p-12 shadow-lg"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <EditableText
+            contentKey="programs.cta.title"
+            editMode={editMode}
+            type="heading"
+            className="text-3xl font-bold text-gray-900 mb-4 block"
+          >
             Ready to Start Your Training Journey?
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          </EditableText>
+          <EditableText
+            contentKey="programs.cta.subtitle"
+            editMode={editMode}
+            type="textarea"
+            className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto block"
+          >
             Book your first session and experience the difference professional training makes
-          </p>
+          </EditableText>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/booking"

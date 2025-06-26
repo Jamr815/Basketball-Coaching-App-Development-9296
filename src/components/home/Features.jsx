@@ -2,10 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../../common/SafeIcon';
+import EditableText from '../editor/EditableText';
+import { useVisualEditor } from '../../hooks/useVisualEditor';
 
 const { FiTarget, FiUsers, FiTrendingUp, FiAward, FiVideo, FiCalendar } = FiIcons;
 
 const Features = () => {
+  const { editMode } = useVisualEditor();
+
   const features = [
     {
       icon: FiTarget,
@@ -49,12 +53,23 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+          <EditableText
+            contentKey="features.title"
+            editMode={editMode}
+            type="heading"
+            className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4 block"
+          >
             Why Choose B.E.A.R.D. Training?
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          </EditableText>
+          
+          <EditableText
+            contentKey="features.subtitle"
+            editMode={editMode}
+            type="textarea"
+            className="text-xl text-gray-600 max-w-3xl mx-auto block"
+          >
             Experience professional-level basketball training with personalized attention and proven methodologies
-          </p>
+          </EditableText>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -70,8 +85,23 @@ const Features = () => {
               <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-6">
                 <SafeIcon icon={feature.icon} className="text-white text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+              
+              <EditableText
+                contentKey={`features.items.${index}.title`}
+                editMode={editMode}
+                className="text-xl font-semibold text-gray-900 mb-4 block"
+              >
+                {feature.title}
+              </EditableText>
+              
+              <EditableText
+                contentKey={`features.items.${index}.description`}
+                editMode={editMode}
+                type="textarea"
+                className="text-gray-600 block"
+              >
+                {feature.description}
+              </EditableText>
             </motion.div>
           ))}
         </div>
